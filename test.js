@@ -1,6 +1,8 @@
 var assert = require("assert");
 
-var Route = require("./route").Route;
+var Route = require("./route").Route,
+    OrderDictionary = require("./route").OrderDictionary;
+
 
 describe('Route', function(){
     var app = new Route();
