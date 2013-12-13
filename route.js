@@ -22,7 +22,7 @@ var Route = function(){
     this.addRoute = function(path, f){
         this._orderDict.put(path, f);
         return this;
-    }
+    };
 
     this.startMain = function(path){
         var curPath = path || window.location.pathname;
@@ -41,13 +41,13 @@ var Route = function(){
             var carchRe = /<([\w-]+)>/g;
             var matchArrary;
             var obj = new OrderDictionary();
-            while((matchArrary = carchRe.exec(v)) != null){
+            while((matchArrary = carchRe.exec(v)) !== null){
                 obj.put(matchArrary[1], null); 
             }
 
             var reMarch = new RegExp("^" + v.replace(/\//g, "\\/").replace(carchRe, "(\\w+)")+"$");
             var results;
-            if((results=reMarch.exec(curPath))!=null){
+            if((results=reMarch.exec(curPath)) !== null){
                 for(var i=1, length=results.length, keys=obj.keys(); i < length; i++){
                     obj.put(keys[i-1],results[i]);
                 }
@@ -58,8 +58,8 @@ var Route = function(){
             }
 
         });
-    }
-}
+    };
+};
 
 
 var OrderDictionary = function(){
@@ -80,7 +80,7 @@ var OrderDictionary = function(){
         }
 
         return this;
-    }
+    };
 
     //http://ejohn.org/blog/javascript-array-remove/
     this._key_remove = function(from, to) {
@@ -94,20 +94,20 @@ var OrderDictionary = function(){
             this._key_remove(this._keys.indexOf(k));
             delete this._dict[k];
         }
-    }
+    };
 
     this.get = function(k){
         return this._dict[k];
-    }
+    };
 
     this.keys = function(){
         return this._keys;
-    }
+    };
 
     this.hasKey = function(k){
         return k in this._dict;
-    }
-}
+    };
+};
 
 //nodejs export
 
