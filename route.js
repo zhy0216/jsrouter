@@ -30,18 +30,22 @@
                     v = v.substring(0, indexQuestion);
                 }
 
-                var carchRe = /<([\w-]+)>/g;
+                var catchRe = /<([\w-]+)>/g;
                 var matchArrary;
                 var obj = new OrderDictionary();
-                while((matchArrary = carchRe.exec(v)) !== null){
+                while((matchArrary = catchRe.exec(v)) !== null){
+                    // console.log(matchArrary)
                     obj.put(matchArrary[1], null); 
                 }
 
-                var reMarch = new RegExp("^" + v.replace(/\//g, "\\/").replace(carchRe, "(\\w+)")+"$");
+                var reMarch = new RegExp("^" + v.replace(/\//g, "\\/").replace(catchRe, "([\\w-]+)")+"$");
+                // console.log(reMarch)
                 var results;
                 if((results=reMarch.exec(curPath)) !== null){
                     for(var i=1, length=results.length, keys=obj.keys(); i < length; i++){
-                        obj.put(keys[i-1],results[i]);
+                        // console.log(keys)
+                        // console.log(results)
+                        obj.change(keys[i-1],results[i]);
                     }
 
                     self._orderDict.get(v).bind(obj._dict)();
@@ -61,6 +65,7 @@
         this._keys = []; //key in order
         this.length = 0;
 
+        // this method will change the order
         this.put = function(k, v){
             if(k in this._dict){
                 this.remove(k);
@@ -74,6 +79,16 @@
 
             return this;
         };
+
+        // this method will not change the order
+        this.change = function(k, v){
+            if(! k in this._dict){
+                
+                this._keys.push(k);
+                this.length ++;
+            }
+            this._dict[k] = v;
+        }
 
         //http://ejohn.org/blog/javascript-array-remove/
         this._key_remove = function(from, to) {
